@@ -22,6 +22,8 @@ public class Speaker implements Serializable {
 
 	private String twitter;
 
+	private String github;
+
 	@Column
 	@Lob
 	private String bio;
@@ -55,6 +57,14 @@ public class Speaker implements Serializable {
 
 	public void setTwitter(String twitter) {
 		this.twitter = twitter;
+	}
+
+	public String getGithub() {
+		return github;
+	}
+
+	public void setGithub(String github) {
+		this.github = github;
 	}
 
 	public String getBio() {

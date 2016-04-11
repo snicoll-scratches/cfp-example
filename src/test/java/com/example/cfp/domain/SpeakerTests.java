@@ -24,4 +24,11 @@ public class SpeakerTests {
 		assertThat(juergen.getLastName()).isEqualTo("Höller");
 	}
 
+	@Test
+	public void v11IsProcessed() {
+		Speaker josh = speakerRepository.findByGithub("joshlong");
+		assertThat(josh).isNotNull();
+		assertThat(josh.getTwitter()).isEqualTo("starbuxman");
+	}
+
 }
