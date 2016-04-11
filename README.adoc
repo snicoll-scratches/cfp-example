@@ -1,0 +1,21 @@
+= 10 ways to get super-productive with Spring Boot
+
+This sample project is going to be used for a talk demoing how Spring Boot helps
+you to be super-productive.
+
+== Scenario
+
+=== Schema update
+
+Let's improve our `Speaker` entity so that we list the `github` account. It's very
+simple really but using Flyway allows us to make sure the schema is upgraded
+automatically on startup. Adding Flyway and putting the script at a default location
+is enough.
+
+=== Switch to a different database
+
+It is very easy to create a `application-local.properties` configuration file and
+point to a different database. In this example, we chose to deploy our app using MySQL
+instead of the embedded H2 database.
+
+`application-local.properties` can be ignored in `.gitignore` and only kept locally.
