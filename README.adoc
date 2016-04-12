@@ -19,3 +19,14 @@ point to a different database. In this example, we chose to deploy our app using
 instead of the embedded H2 database.
 
 `application-local.properties` can be ignored in `.gitignore` and only kept locally.
+
+=== OAuth authentication
+
+We want to use OAuth to allow a speaker or an administrator to login. We do so by
+adding the security starter and Spring's Oauth2 support.
+
+A simple `SecurityConfig` defines the permissions for the various endpoints: to make
+things a little bit more easier, we redirect all actuator endpoints to `/admin`. We
+can reuse our `local` profile to provide the `client-id` and `client-secret` of an
+application that binds to `localhost:8080`. Of course the target environment should
+provide a _real_ secret.
