@@ -41,3 +41,18 @@ configure that the same way we can configure Spring Boot.
 `spring-boot-configuration-processor` to our build generates the relevant meta-data
 that the IDEs use to offer auto-completion.
 
+=== Caching
+
+Our `GithubClient` is retrieving the invited speakers using the Github API and
+we may suffer from a rate limit quite quickly. To avoid that, we can cache the
+result of those calls.
+
+It's super easy to do that, just add `@EnableCaching` to your app and annotate
+your bean methods. This gives a very basic cache store using `ConcurrentHashMaps`. The
+drawback of such store is that it does not offer any feature with regards to
+expiration and memory consumption. But we can just as easily switch to a different
+store if needed.
+
+For instance we could use `JSR-107` (`JCache`). It is as easy as adding the cache
+api and a compliant JSR-107 provider. Once you have that you can configure your caches
+with the library-specifc infrastructure or via a `JCacheManagerCustomizer`.

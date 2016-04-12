@@ -9,6 +9,8 @@ import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONArray;
 
 import org.springframework.boot.actuate.metrics.CounterService;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
+@CacheConfig(cacheNames = "github")
 public class GithubClient {
 
 	private final CounterService counterService;
@@ -28,6 +31,7 @@ public class GithubClient {
 		this.restTemplate = restTemplate;
 	}
 
+	@Cacheable(key = "'invited-speakers'")
 	public List<GithubUser> getInvitedSpeakers() {
 		String publicMembersJson = invoke(createRequestEntity(
 				"https://api.github.com/orgs/snicoll-scratches/public_members"), String.class).getBody();

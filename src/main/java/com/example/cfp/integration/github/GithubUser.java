@@ -1,8 +1,11 @@
 package com.example.cfp.integration.github;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class GithubUser {
+@SuppressWarnings("serial")
+public class GithubUser implements Serializable {
 
 	private String name;
 
