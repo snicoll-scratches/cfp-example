@@ -1,8 +1,5 @@
 package com.example.cfp;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +12,11 @@ import org.springframework.security.core.authority.AuthorityUtils;
 @EnableOAuth2Sso
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final List<String> ADMIN_USERS = Arrays.asList("snicoll", "bclozel");
+	private final CfpProperties cfpProperties;
+
+	public SecurityConfig(CfpProperties cfpProperties) {
+		this.cfpProperties = cfpProperties;
+	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -31,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public AuthoritiesExtractor authoritiesExtractor() {
 		return map -> {
 			String username = (String) map.get("login");
-			if (ADMIN_USERS.contains(username)) {
+			if (cfpProperties.getSecurity().getAdmins().contains(username)) {
 				return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER,ROLE_ADMIN");
 			}
 			else {
