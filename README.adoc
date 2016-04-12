@@ -55,4 +55,10 @@ store if needed.
 
 For instance we could use `JSR-107` (`JCache`). It is as easy as adding the cache
 api and a compliant JSR-107 provider. Once you have that you can configure your caches
-with the library-specifc infrastructure or via a `JCacheManagerCustomizer`.
+with the library-specific infrastructure or via a `JCacheManagerCustomizer`.
+
+=== Adding useful info automatically
+
+Spring Boot 1.4 allows you to add all kinds of information to your `/info` endpoint
+easily. We can for example fetch build and git related information. It is possible
+to customize that information and use build-specific variables.
