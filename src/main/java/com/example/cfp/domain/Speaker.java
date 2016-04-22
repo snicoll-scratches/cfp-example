@@ -1,12 +1,15 @@
 package com.example.cfp.domain;
 
 import java.io.Serializable;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 
 @Entity
 @SuppressWarnings("serial")
@@ -28,7 +31,16 @@ public class Speaker implements Serializable {
 	@Lob
 	private String bio;
 
+	@OneToMany(mappedBy = "speaker", cascade = CascadeType.ALL)
+	private Set<Submission> submissions;
+
 	public Speaker() {
+	}
+
+	public Speaker(String github, String firstName, String lastName) {
+		this.github = github;
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
 
 	public Long getId() {
@@ -73,6 +85,14 @@ public class Speaker implements Serializable {
 
 	public void setBio(String bio) {
 		this.bio = bio;
+	}
+
+	public Set<Submission> getSubmissions() {
+		return submissions;
+	}
+
+	public void setSubmissions(Set<Submission> submissions) {
+		this.submissions = submissions;
 	}
 
 	@Override
