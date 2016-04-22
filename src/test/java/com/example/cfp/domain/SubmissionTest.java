@@ -31,6 +31,16 @@ public class SubmissionTest {
 	public SubmissionRepository submissionRepository;
 
 	@Test
+	public void newSubmissionHasDraftStatus() {
+		Speaker speaker = this.entityManager.persist(
+				new Speaker("jhoeller", "Jürgen", "Höller"));
+		Submission submission = new Submission();
+		submission.setSpeaker(speaker);
+		Submission saved = this.submissionRepository.save(submission);
+		assertThat(saved.getStatus()).isEqualTo(SubmissionStatus.DRAFT);
+	}
+
+	@Test
 	public void findBySpeaker() {
 		Speaker speaker = this.entityManager.persist(
 				new Speaker("jhoeller", "Jürgen", "Höller"));

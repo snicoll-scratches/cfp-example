@@ -40,6 +40,10 @@ public class Submission implements Serializable {
 	@Lob
 	private String notes;
 
+	public Submission() {
+		this.status = SubmissionStatus.DRAFT;
+	}
+
 	public Long getId() {
 		return id;
 	}
