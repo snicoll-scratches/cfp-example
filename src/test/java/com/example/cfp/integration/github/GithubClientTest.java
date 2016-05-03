@@ -35,33 +35,34 @@ public class GithubClientTest {
 	public void setUp() {
 		this.counterService = mock(CounterService.class);
 		RestTemplate restTemplate = new RestTemplate();
-		this.githubClient = new GithubClient(counterService, restTemplate);
-		mockServer = MockRestServiceServer.createServer(restTemplate);
+		this.githubClient = new GithubClient(this.counterService, restTemplate);
+		this.mockServer = MockRestServiceServer.createServer(restTemplate);
 	}
 
 	@Test
-	public void publishSimpleDocument() {
-		expectJson("https://api.github.com/orgs/snicoll-scratches/public_members", "github/public-members.json");
-		expectJson("https://api.github.com/users/jsmith", "github/jsmith.json");
-		expectJson("https://api.github.com/users/bdupont", "github/bdupont.json");
-
-		List<GithubUser> speakers = this.githubClient.getInvitedSpeakers();
-		mockServer.verify();
-		assertThat(speakers).hasSize(2);
-		assertGithubUser(speakers.get(0), "John Smith", "Acme Inc.",
-				"https://acme.org/blog", "https://acme.org/team/jsmith/avatar");
-		assertGithubUser(speakers.get(1), "Bernard Dupont", "Acme Inc.",
-				"https://acme.org/blog", null);
+	public void getRecentCommits() {
+		expectJson("https://api.github.com/repos/spring-projects/spring-framework/commits",
+				"github/spring-framework-commits.json");
+		List<Commit> recentCommits = this.githubClient.getRecentCommits(
+				"spring-projects", "spring-framework");
+		this.mockServer.verify();
+		assertThat(recentCommits).hasSize(5);
+		assertCommit(recentCommits.get(0), "7737c3c",
+				"Warn about non-static BeanDefinitionRegistryPostProcessor declarations on @Configuration classes",
+				"jhoeller", "Juergen Hoeller", "https://avatars.githubusercontent.com/u/1263688?v=3");
+		assertCommit(recentCommits.get(3), "09b45d2",
+				"Validate callback is always invoked in DMLC#stop",
+				"snicoll", "Stephane Nicoll", "https://avatars.githubusercontent.com/u/490484?v=3");
+		verify(this.counterService, times(1)).increment("cfp.github.requests");
 	}
 
 	@Test
-	public void publishDocumentIncreaseCounter() {
-		expectJson("https://api.github.com/orgs/snicoll-scratches/public_members", "github/public-members.json");
-		expectJson("https://api.github.com/users/jsmith", "github/jsmith.json");
-		expectJson("https://api.github.com/users/bdupont", "github/bdupont.json");
-
-		this.githubClient.getInvitedSpeakers();
-		verify(this.counterService, times(3)).increment("cfp.github.requests");
+	public void getRecentCommitsNoCommit() {
+		expectJson("https://api.github.com/repos/spring-projects/spring-boot/commits",
+				"github/no-commit.json");
+		List<Commit> latestCommit = this.githubClient.getRecentCommits("spring-projects", "spring-boot");
+		assertThat(latestCommit).hasSize(0);
+		verify(this.counterService, times(1)).increment("cfp.github.requests");
 	}
 
 	private void expectJson(String url, String bodyPath) {
@@ -73,12 +74,16 @@ public class GithubClientTest {
 						.contentType(MediaType.APPLICATION_JSON));
 	}
 
-	private void assertGithubUser(GithubUser actual, String name, String company,
-			String blog, String avatar) {
-		assertThat(actual.getName()).isEqualTo(name);
-		assertThat(actual.getCompany()).isEqualTo(company);
-		assertThat(actual.getBlog()).isEqualTo(blog);
-		assertThat(actual.getAvatar()).isEqualTo(avatar);
+	private void assertCommit(Commit commit, String sha, String message,
+			String committerId, String committerName, String committerAvatar) {
+		assertThat(commit).isNotNull();
+		assertThat(commit.getSha()).isEqualTo(sha);
+		assertThat(commit.getMessage()).isEqualTo(message);
+		Commit.Committer committer = commit.getCommitter();
+		assertThat(committer).isNotNull();
+		assertThat(committer.getId()).isEqualTo(committerId);
+		assertThat(committer.getName()).isEqualTo(committerName);
+		assertThat(committer.getAvatarUrl()).isEqualTo(committerAvatar);
 	}
 
 }

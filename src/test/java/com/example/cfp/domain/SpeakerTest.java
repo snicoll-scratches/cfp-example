@@ -17,8 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ImportAutoConfiguration({CacheAutoConfiguration.class, FlywayAutoConfiguration.class})
-@TestPropertySource(properties = "spring.cache.type=none")
+@ImportAutoConfiguration(FlywayAutoConfiguration.class)
 public class SpeakerTest {
 
 	@Autowired

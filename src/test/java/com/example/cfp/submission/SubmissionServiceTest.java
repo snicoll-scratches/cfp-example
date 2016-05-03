@@ -9,12 +9,10 @@ import org.junit.runner.RunWith;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration;
 import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,8 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @DataJpaTest(includeFilters = @ComponentScan.Filter(
 		type = FilterType.ASSIGNABLE_TYPE, classes = SubmissionService.class))
-@ImportAutoConfiguration({CacheAutoConfiguration.class, FlywayAutoConfiguration.class})
-@TestPropertySource(properties = "spring.cache.type=none")
+@ImportAutoConfiguration(FlywayAutoConfiguration.class)
 public class SubmissionServiceTest {
 
 	@Autowired
@@ -34,7 +31,7 @@ public class SubmissionServiceTest {
 		SubmissionRequest request = new SubmissionRequest();
 		request.setSpeaker("jsmith", "John", "Smith");
 		request.setTalk("Alice in Wonderland", "my abstract", "this rocks");
-		Submission submission = submissionService.create(request);
+		Submission submission = this.submissionService.create(request);
 		assertThat(submission).isNotNull();
 		assertThat(submission.getSpeaker()).isNotNull();
 		assertThat(submission.getSpeaker().getGithub()).isEqualTo("jsmith");

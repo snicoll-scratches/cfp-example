@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.antMatcher("/**")
 				.authorizeRequests()
 				.antMatchers("/admin/**").hasRole("ADMIN")
-				.antMatchers("/", "/login**", "/webjars/**").permitAll()
+				.antMatchers("/", "/login**", "/webjars/**", "/public/**").permitAll()
 				.anyRequest().authenticated()
 				.and().logout().logoutSuccessUrl("/").permitAll();
 	}
@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public AuthoritiesExtractor authoritiesExtractor() {
 		return map -> {
 			String username = (String) map.get("login");
-			if (cfpProperties.getSecurity().getAdmins().contains(username)) {
+			if (this.cfpProperties.getSecurity().getAdmins().contains(username)) {
 				return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER,ROLE_ADMIN");
 			}
 			else {
