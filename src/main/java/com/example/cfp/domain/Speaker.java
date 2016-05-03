@@ -19,9 +19,7 @@ public class Speaker implements Serializable {
 	@Id
 	private Long id;
 
-	private String firstName;
-
-	private String lastName;
+	private String name;
 
 	private String twitter;
 
@@ -37,34 +35,25 @@ public class Speaker implements Serializable {
 	public Speaker() {
 	}
 
-	public Speaker(String github, String firstName, String lastName) {
+	public Speaker(String github, String name) {
 		this.github = github;
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.name = name;
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return this.name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getTwitter() {
-		return twitter;
+		return this.twitter;
 	}
 
 	public void setTwitter(String twitter) {
@@ -72,7 +61,7 @@ public class Speaker implements Serializable {
 	}
 
 	public String getGithub() {
-		return github;
+		return this.github;
 	}
 
 	public void setGithub(String github) {
@@ -80,7 +69,7 @@ public class Speaker implements Serializable {
 	}
 
 	public String getBio() {
-		return bio;
+		return this.bio;
 	}
 
 	public void setBio(String bio) {
@@ -88,7 +77,7 @@ public class Speaker implements Serializable {
 	}
 
 	public Set<Submission> getSubmissions() {
-		return submissions;
+		return this.submissions;
 	}
 
 	public void setSubmissions(Set<Submission> submissions) {
@@ -97,7 +86,7 @@ public class Speaker implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Speaker{" + "id=" + id + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + '}';
+		return "Speaker{" + "id=" + this.id + ", name='" + this.name + '\'' + '}';
 	}
 
 }

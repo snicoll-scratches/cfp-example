@@ -65,8 +65,16 @@ public class GithubClientTest {
 		verify(this.counterService, times(1)).increment("cfp.github.requests");
 	}
 
+	@Test
+	public void getUser() {
+		expectJson("https://api.github.com/users/jsmith", "github/jsmith.json");
+		GithubUser user = this.githubClient.getUser("jsmith");
+		assertGithubUser(user, "John Smith", "Acme Inc.",
+				"https://acme.org/blog", "https://acme.org/team/jsmith/avatar");
+	}
+
 	private void expectJson(String url, String bodyPath) {
-		mockServer.expect(requestTo(url))
+		this.mockServer.expect(requestTo(url))
 				.andExpect(method(HttpMethod.GET))
 				.andExpect(header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE))
 				.andRespond(withStatus(HttpStatus.OK)
@@ -84,6 +92,14 @@ public class GithubClientTest {
 		assertThat(committer.getId()).isEqualTo(committerId);
 		assertThat(committer.getName()).isEqualTo(committerName);
 		assertThat(committer.getAvatarUrl()).isEqualTo(committerAvatar);
+	}
+
+	private void assertGithubUser(GithubUser actual, String name, String company,
+			String blog, String avatar) {
+		assertThat(actual.getName()).isEqualTo(name);
+		assertThat(actual.getCompany()).isEqualTo(company);
+		assertThat(actual.getBlog()).isEqualTo(blog);
+		assertThat(actual.getAvatar()).isEqualTo(avatar);
 	}
 
 }

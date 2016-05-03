@@ -18,6 +18,8 @@ public class CachingConfig {
 		return c -> {
 			c.createCache("commits", new MutableConfiguration<>()
 					.setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(Duration.ONE_MINUTE)));
+			c.createCache("github.users", new MutableConfiguration<>()
+					.setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(Duration.ONE_HOUR)));
 		};
 	}
 

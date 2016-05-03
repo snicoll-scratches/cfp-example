@@ -4,9 +4,7 @@ public class SubmissionRequest {
 
 	private String githubId;
 
-	private String firstName;
-
-	private String lastName;
+	private String name;
 
 	private String title;
 
@@ -22,20 +20,12 @@ public class SubmissionRequest {
 		this.githubId = githubId;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return this.name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getTitle() {
@@ -62,10 +52,9 @@ public class SubmissionRequest {
 		this.notes = notes;
 	}
 
-	public void setSpeaker(String githubId, String firstName, String lastName) {
+	public void setSpeaker(String githubId, String name) {
 		setGithubId(githubId);
-		setFirstName(firstName);
-		setLastName(lastName);
+		setName(name);
 	}
 
 	public void setTalk(String title, String summary, String notes) {
@@ -81,23 +70,21 @@ public class SubmissionRequest {
 
 		SubmissionRequest that = (SubmissionRequest) o;
 
-		if (githubId != null ? !githubId.equals(that.githubId) : that.githubId != null) return false;
-		if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
-		if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
-		if (title != null ? !title.equals(that.title) : that.title != null) return false;
-		if (summary != null ? !summary.equals(that.summary) : that.summary != null) return false;
-		return notes != null ? notes.equals(that.notes) : that.notes == null;
+		if (this.githubId != null ? !this.githubId.equals(that.githubId) : that.githubId != null) return false;
+		if (this.name != null ? !this.name.equals(that.name) : that.name != null) return false;
+		if (this.title != null ? !this.title.equals(that.title) : that.title != null) return false;
+		if (this.summary != null ? !this.summary.equals(that.summary) : that.summary != null) return false;
+		return this.notes != null ? this.notes.equals(that.notes) : that.notes == null;
 
 	}
 
 	@Override
 	public int hashCode() {
-		int result = githubId != null ? githubId.hashCode() : 0;
-		result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-		result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-		result = 31 * result + (title != null ? title.hashCode() : 0);
-		result = 31 * result + (summary != null ? summary.hashCode() : 0);
-		result = 31 * result + (notes != null ? notes.hashCode() : 0);
+		int result = this.githubId != null ? this.githubId.hashCode() : 0;
+		result = 31 * result + (this.name != null ? this.name.hashCode() : 0);
+		result = 31 * result + (this.title != null ? this.title.hashCode() : 0);
+		result = 31 * result + (this.summary != null ? this.summary.hashCode() : 0);
+		result = 31 * result + (this.notes != null ? this.notes.hashCode() : 0);
 		return result;
 	}
 

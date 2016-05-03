@@ -14,7 +14,7 @@ public interface SpeakerRepository extends CrudRepository<Speaker, Long> {
 	@RestResource(path = "by-github")
 	Speaker findByGithub(@Param("id") String github);
 
-	@RestResource(path = "by-last-name")
-	Collection<Speaker> findByLastName(@Param("name") String lastName);
+	@RestResource(path = "by-name")
+	Collection<Speaker> findByName(@Param("name") String lastName);
 
 }

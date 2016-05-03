@@ -35,7 +35,7 @@ public class CfpControllerTest {
 	@Test
 	public void submitNewSpeaker() throws Exception {
 		SubmissionRequest form = new SubmissionRequest();
-		form.setSpeaker("jsmith", "John", "Smith");
+		form.setSpeaker("jsmith", "John Smith");
 		form.setTalk("Alice in Wonderland", "my abstract", "this rocks");
 		given(this.submissionService.create(form)).willReturn(null);
 		this.mvc.perform(post("/cfp/submissions")

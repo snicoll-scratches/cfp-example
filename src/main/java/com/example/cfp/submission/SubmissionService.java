@@ -43,8 +43,7 @@ public class SubmissionService {
 		if (speaker == null) {
 			speaker = new Speaker();
 			speaker.setGithub(request.getGithubId());
-			speaker.setFirstName(request.getFirstName());
-			speaker.setLastName(request.getLastName());
+			speaker.setName(request.getName());
 			speaker = this.speakerRepository.save(speaker);
 		}
 		return speaker;

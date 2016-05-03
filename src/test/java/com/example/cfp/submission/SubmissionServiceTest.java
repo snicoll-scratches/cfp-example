@@ -29,14 +29,13 @@ public class SubmissionServiceTest {
 	@Test
 	public void submitNewSpeaker() throws Exception {
 		SubmissionRequest request = new SubmissionRequest();
-		request.setSpeaker("jsmith", "John", "Smith");
+		request.setSpeaker("jsmith", "John Smith");
 		request.setTalk("Alice in Wonderland", "my abstract", "this rocks");
 		Submission submission = this.submissionService.create(request);
 		assertThat(submission).isNotNull();
 		assertThat(submission.getSpeaker()).isNotNull();
 		assertThat(submission.getSpeaker().getGithub()).isEqualTo("jsmith");
-		assertThat(submission.getSpeaker().getFirstName()).isEqualTo("John");
-		assertThat(submission.getSpeaker().getLastName()).isEqualTo("Smith");
+		assertThat(submission.getSpeaker().getName()).isEqualTo("John Smith");
 		assertThat(submission.getTitle()).isEqualTo("Alice in Wonderland");
 		assertThat(submission.getSummary()).isEqualTo("my abstract");
 		assertThat(submission.getNotes()).isEqualTo("this rocks");
@@ -52,11 +51,11 @@ public class SubmissionServiceTest {
 	@Test
 	public void submitExistingSpeaker() throws Exception {
 		Speaker existing = this.submissionService.getSpeakerRepository()
-				.save(new Speaker("fbar", "Foo", "Bar"));
+				.save(new Speaker("fbar", "Foo Bar"));
 		SubmissionRequest request = new SubmissionRequest();
-		request.setSpeaker("fbar", "Foo", "Bar");
+		request.setSpeaker("fbar", "Foo Bar");
 		request.setTalk("Alice in Wonderland", "my abstract", "this rocks");
-		Submission submission = submissionService.create(request);
+		Submission submission = this.submissionService.create(request);
 		assertThat(submission).isNotNull();
 		assertThat(submission.getSpeaker()).isSameAs(existing);
 

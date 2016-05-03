@@ -25,25 +25,23 @@ public class SpeakerTest {
 
 	@Test
 	public void findByGithub() {
-		Speaker speaker = new Speaker("bclozel", "Brian", "Clozel");
+		Speaker speaker = new Speaker("bclozel", "Brian Clozel");
 		this.speakerRepository.save(speaker);
 
-		Speaker brian = speakerRepository.findByGithub("bclozel");
+		Speaker brian = this.speakerRepository.findByGithub("bclozel");
 		assertThat(brian).isNotNull();
-		assertThat(brian.getFirstName()).isEqualTo("Brian");
-		assertThat(brian.getLastName()).isEqualTo("Clozel");
+		assertThat(brian.getName()).isEqualTo("Brian Clozel");
 	}
 
 	@Test
 	public void findByTwitter() {
-		Speaker speaker = new Speaker("jhoeller", "Jürgen", "Höller");
+		Speaker speaker = new Speaker("jhoeller", "Jürgen Höller");
 		speaker.setTwitter("springjuergen");
 		this.speakerRepository.save(speaker);
 
-		Speaker juergen = speakerRepository.findByTwitter("springjuergen");
+		Speaker juergen = this.speakerRepository.findByTwitter("springjuergen");
 		assertThat(juergen).isNotNull();
-		assertThat(juergen.getFirstName()).isEqualTo("Jürgen");
-		assertThat(juergen.getLastName()).isEqualTo("Höller");
+		assertThat(juergen.getName()).isEqualTo("Jürgen Höller");
 	}
 
 }

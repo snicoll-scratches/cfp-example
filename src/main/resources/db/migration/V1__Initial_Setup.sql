@@ -1,7 +1,6 @@
 CREATE TABLE SPEAKER (
   id         BIGINT auto_increment,
-  first_name VARCHAR(50) NOT NULL,
-  last_name  VARCHAR(50) NOT NULL,
+  name       VARCHAR(100) NOT NULL,
   github     VARCHAR(30),
   twitter    VARCHAR(30),
   bio        TEXT,

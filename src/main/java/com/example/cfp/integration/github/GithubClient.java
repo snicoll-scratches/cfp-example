@@ -34,6 +34,12 @@ public class GithubClient {
 		return Arrays.asList(response.getBody());
 	}
 
+	@Cacheable("github.users")
+	public GithubUser getUser(String githubId) {
+		return invoke(createRequestEntity(
+				String.format("https://api.github.com/users/%s", githubId)), GithubUser.class).getBody();
+	}
+
 	private <T> ResponseEntity<T> invoke(RequestEntity<?> request, Class<T> type) {
 		this.counterService.increment("cfp.github.requests");
 		try {

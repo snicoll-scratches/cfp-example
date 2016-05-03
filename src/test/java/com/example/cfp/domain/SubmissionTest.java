@@ -33,7 +33,7 @@ public class SubmissionTest {
 	@Test
 	public void newSubmissionHasDraftStatus() {
 		Speaker speaker = this.entityManager.persist(
-				new Speaker("jhoeller", "Jürgen", "Höller"));
+				new Speaker("jhoeller", "Jürgen Höller"));
 		Submission submission = new Submission();
 		submission.setSpeaker(speaker);
 		Submission saved = this.submissionRepository.save(submission);
@@ -43,7 +43,7 @@ public class SubmissionTest {
 	@Test
 	public void findBySpeaker() {
 		Speaker speaker = this.entityManager.persist(
-				new Speaker("jhoeller", "Jürgen", "Höller"));
+				new Speaker("jhoeller", "Jürgen Höller"));
 		this.submissionRepository.save(createDummySubmission(speaker, "Foo"));
 		this.submissionRepository.save(createDummySubmission(speaker, "Bar"));
 
