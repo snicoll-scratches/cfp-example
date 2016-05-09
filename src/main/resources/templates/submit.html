@@ -1,0 +1,55 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/main">
+<head>
+    <title>Home</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+
+        <div class="page-header">
+            <h2>Submit a talk proposal</h2>
+        </div>
+        <form class="form-horizontal well bs-component col-lg-10 col-lg-offset-1" th:action="@{/submit}">
+            <fieldset>
+                <div class="form-group">
+                    <label for="title" class="col-lg-2 control-label">Title</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="title" placeholder="Title"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="abstract" class="col-lg-2 control-label">Abstract</label>
+                    <div class="col-lg-10">
+                        <textarea class="form-control" rows="3" id="abstract"></textarea>
+                        <span class="help-block">Describe your talk proposal here.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="notes" class="col-lg-2 control-label">Notes</label>
+                    <div class="col-lg-10">
+                        <textarea class="form-control" rows="5" id="notes"></textarea>
+                        <span class="help-block">A message for the selection committee.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="track" class="col-lg-2 control-label">Track</label>
+                    <div class="col-lg-10">
+                        <select class="form-control" id="track">
+                            <option th:each="track : ${tracks}" th:value="${track}" th:text="${track.displayName}">Category</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <button type="reset" class="btn btn-default">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+</body>
+</html>
