@@ -25,6 +25,8 @@ public class Speaker implements Serializable {
 
 	private String github;
 
+	private String avatarUrl;
+
 	@Column
 	@Lob
 	private String bio;
@@ -66,6 +68,14 @@ public class Speaker implements Serializable {
 
 	public void setGithub(String github) {
 		this.github = github;
+	}
+
+	public String getAvatarUrl() {
+		return avatarUrl;
+	}
+
+	public void setAvatarUrl(String avatarUrl) {
+		this.avatarUrl = avatarUrl;
 	}
 
 	public String getBio() {

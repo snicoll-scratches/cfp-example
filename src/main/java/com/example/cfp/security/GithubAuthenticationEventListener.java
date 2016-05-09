@@ -32,6 +32,7 @@ class GithubAuthenticationEventListener {
 			logger.info("Creating initial speaker entry for {}", githubLogin);
 			GithubUser user = this.githubClient.getUser(githubLogin);
 			Speaker speaker = new Speaker(githubLogin, user.getName());
+			speaker.setAvatarUrl(user.getAvatar());
 			this.speakerRepository.save(speaker);
 		}
 	}

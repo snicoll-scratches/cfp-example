@@ -3,6 +3,7 @@ CREATE TABLE SPEAKER (
   name       VARCHAR(100) NOT NULL,
   github     VARCHAR(30),
   twitter    VARCHAR(30),
+  avatar_url  VARCHAR(200),
   bio        TEXT,
   PRIMARY KEY (id)
 );
