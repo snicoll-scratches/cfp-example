@@ -50,6 +50,12 @@
     </div>
 </nav>
 <div class="container-fluid wrapper">
+    <div class="container">
+        <div id="successMessage" th:if="${successMessage != null}" class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <span th:text="${successMessage}" ></span>
+        </div>
+    </div>
     <div layout:fragment="content">
         <h1>Example content</h1>
     </div>

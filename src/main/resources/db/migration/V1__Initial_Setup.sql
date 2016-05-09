@@ -13,8 +13,8 @@ CREATE TABLE SUBMISSION (
   speaker_id BIGINT,
   title      VARCHAR(100),
   status     INTEGER,
-  notes      TEXT,
   summary    TEXT,
+  track INT,
   PRIMARY KEY (id)
 );
 

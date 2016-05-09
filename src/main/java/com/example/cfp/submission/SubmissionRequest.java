@@ -1,5 +1,7 @@
 package com.example.cfp.submission;
 
+import com.example.cfp.domain.Track;
+
 public class SubmissionRequest {
 
 	private String githubId;
@@ -11,6 +13,8 @@ public class SubmissionRequest {
 	private String summary;
 
 	private String notes;
+
+	private Track track;
 
 	public String getGithubId() {
 		return githubId;
@@ -50,6 +54,14 @@ public class SubmissionRequest {
 
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+
+	public Track getTrack() {
+		return track;
+	}
+
+	public void setTrack(Track track) {
+		this.track = track;
 	}
 
 	public void setSpeaker(String githubId, String name) {
