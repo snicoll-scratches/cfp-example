@@ -28,8 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/", "/login**", "/webjars/**", "/public/**").permitAll()
 				.antMatchers("/css/**", "/img/**", "/webjars/**", "/bootstrap/**").permitAll()
 				.anyRequest().authenticated()
-				.and().logout().logoutSuccessUrl("/").permitAll()
-				.and().csrf();
+				.and().csrf().ignoringAntMatchers("/admin/h2-console/*")
+				.and().logout().logoutSuccessUrl("/").permitAll();
+		http.headers(). frameOptions().sameOrigin();
 	}
 
 	@Bean
