@@ -24,6 +24,7 @@ class CachingConfig {
 
 	private MutableConfiguration<Object, Object> createConfiguration(Duration expiration) {
 		return new MutableConfiguration<>()
+				.setStoreByValue(false)
 				.setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(expiration));
 	}
 
