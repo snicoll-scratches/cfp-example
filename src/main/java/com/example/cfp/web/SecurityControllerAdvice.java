@@ -32,10 +32,4 @@ public class SecurityControllerAdvice {
 		}
 	}
 
-	@ModelAttribute("isAdmin")
-	public boolean isAdmin(Principal principal) {
-		return principal != null
-				&& this.cfpProperties.getSecurity().getAdmins().contains(principal.getName());
-	}
-
 }

@@ -1,18 +1,28 @@
 package com.example.cfp.domain;
 
-/**
- *
- * @author Stephane Nicoll
- */
 public enum SubmissionStatus {
 
-	DRAFT,
+	DRAFT("Draft"),
 
-	SUBMITTED,
+	SUBMITTED("Submitted"),
 
-	ACCEPTED,
+	ACCEPTED("Accepted"),
 
-	REJECTED
+	REJECTED("Rejected");
+
+	private String displayName;
+
+	SubmissionStatus(String displayName) {
+		this.displayName = displayName;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public String getId() {
+		return name();
+	}
 
 
 }

@@ -1,5 +1,7 @@
 package com.example.cfp.web;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +28,7 @@ public class NewsController {
 				getRecentCommits("spring-projects", "spring-framework"));
 		model.addAttribute("latestBootCommits",
 				getRecentCommits("spring-projects", "spring-boot"));
+		model.addAttribute("daysSinceLastPolish", daysSinceLastPolishCommit());
 		return "news";
 	}
 
@@ -33,5 +36,11 @@ public class NewsController {
 		return this.githubClient
 				.getRecentCommits(organization, project)
 				.stream().limit(5).collect(Collectors.toList());
+	}
+
+	private long daysSinceLastPolishCommit() {
+		Commit polishCommit = this.githubClient.getRecentPolishCommit("spring-projects", "spring-framework");
+		Duration duration = Duration.between(polishCommit.getDate(), Instant.now());
+		return duration.toDays();
 	}
 }

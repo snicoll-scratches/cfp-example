@@ -1,13 +1,13 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/main">
 <head>
-    <title>Home</title>
+    <title>News</title>
 </head>
 <body>
 <div layout:fragment="content">
     <div class="container">
         <section class="days-since-last-polish">
             <div>
-                <h2><span>2</span> DAYS</h2>
+                <h2><span th:text="${daysSinceLastPolish}">2</span> DAYS</h2>
                 <hr/>
                 <p>since last Polish</p>
             </div>

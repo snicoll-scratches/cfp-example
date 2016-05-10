@@ -46,6 +46,9 @@
                     </ul>
                 </li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" th:class="${navSection == 'admin' ? 'active' : ''}"><a th:href="@{/admin}">Admin</a></li>
+            </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
