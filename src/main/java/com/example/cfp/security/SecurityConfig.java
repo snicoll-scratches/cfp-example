@@ -2,7 +2,6 @@ package com.example.cfp.security;
 
 import com.example.cfp.CfpProperties;
 
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.authority.AuthorityUtils;
 
 @Configuration
-@EnableOAuth2Sso
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final CfpProperties cfpProperties;
@@ -24,11 +22,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/admin/**").hasRole("ADMIN")
-				.antMatchers("/", "/news", "/login**", "/static/**", "/webjars/**").permitAll()
-				.anyRequest().authenticated()
+				.anyRequest().permitAll()
 				.and()
 			.csrf()
 				.ignoringAntMatchers("/admin/h2-console/*")
+				.and()
+			.formLogin()
+				.loginPage("/login")
+				.permitAll()
 				.and()
 			.logout()
 				.logoutSuccessUrl("/")

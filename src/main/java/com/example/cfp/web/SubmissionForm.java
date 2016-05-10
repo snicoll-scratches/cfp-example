@@ -8,6 +8,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class SubmissionForm {
 
 	@NotEmpty
+	private String github;
+
+	@NotEmpty
+	private String name;
+
+	@NotEmpty
 	private String title;
 
 	@NotEmpty
@@ -17,6 +23,22 @@ public class SubmissionForm {
 
 	@NotNull
 	private Track track;
+
+	public String getGithub() {
+		return this.github;
+	}
+
+	public void setGithub(String github) {
+		this.github = github;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public String getTitle() {
 		return title;
