@@ -26,14 +26,14 @@ public class CfpController {
 	}
 
 
-	@RequestMapping(path = "/cfp/submit", method = RequestMethod.GET)
+	@RequestMapping(path = "/submit", method = RequestMethod.GET)
 	public String submitForm(Model model) {
 		model.addAttribute("tracks", Track.values());
 		model.addAttribute("submissionForm", new SubmissionForm());
 		return "submit";
 	}
 
-	@RequestMapping(path = "/cfp/submit", method = RequestMethod.POST)
+	@RequestMapping(path = "/submit", method = RequestMethod.POST)
 	public String submit(@Valid SubmissionForm submissionForm, BindingResult bindingResult,
 			@ModelAttribute("currentUser") Speaker speaker, RedirectAttributes attributes, Model model) {
 		if (bindingResult.hasErrors()) {

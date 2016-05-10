@@ -48,7 +48,7 @@ public class CfpControllerTest {
 		form.setSummary("my abstract");
 		form.setNotes("this rocks");
 		given(this.submissionService.create(any())).willReturn(null);
-		this.mvc.perform(post("/cfp/submit")
+		this.mvc.perform(post("/submit")
 				.param("title", "Alice in Wonderland")
 				.param("summary", "my abstract")
 				.param("notes", "this rocks")
