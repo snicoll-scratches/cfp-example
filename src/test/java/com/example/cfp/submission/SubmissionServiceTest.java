@@ -2,7 +2,7 @@ package com.example.cfp.submission;
 
 import java.util.List;
 
-import com.example.cfp.domain.Speaker;
+import com.example.cfp.domain.User;
 import com.example.cfp.domain.Submission;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +40,7 @@ public class SubmissionServiceTest {
 		assertThat(submission.getSummary()).isEqualTo("my abstract");
 		assertThat(submission.getNotes()).isEqualTo("this rocks");
 
-		Speaker jsmith = this.submissionService.getSpeakerRepository()
+		User jsmith = this.submissionService.getUserRepository()
 				.findByGithub("jsmith");
 		assertThat(jsmith).isNotNull();
 		List<Submission> submissions = this.submissionService.getSubmissionRepository()
@@ -50,16 +50,15 @@ public class SubmissionServiceTest {
 
 	@Test
 	public void submitExistingSpeaker() throws Exception {
-		Speaker existing = this.submissionService.getSpeakerRepository()
-				.save(new Speaker("fbar", "Foo Bar"));
+		User existing = this.submissionService.getUserRepository()
+				.save(new User("fbar", "Foo Bar"));
 		SubmissionRequest request = new SubmissionRequest();
 		request.setSpeaker("fbar", "Foo Bar");
 		request.setTalk("Alice in Wonderland", "my abstract", "this rocks");
 		Submission submission = this.submissionService.create(request);
 		assertThat(submission).isNotNull();
 		assertThat(submission.getSpeaker()).isSameAs(existing);
-
-		assertThat(this.submissionService.getSpeakerRepository()
+		assertThat(this.submissionService.getUserRepository()
 				.findByGithub("fbar")).isSameAs(existing);
 	}
 

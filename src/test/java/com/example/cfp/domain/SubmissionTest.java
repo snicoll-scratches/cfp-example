@@ -32,8 +32,8 @@ public class SubmissionTest {
 
 	@Test
 	public void newSubmissionHasDraftStatus() {
-		Speaker speaker = this.entityManager.persist(
-				new Speaker("jhoeller", "Jürgen Höller"));
+		User speaker = this.entityManager.persist(
+				new User("jhoeller", "Jürgen Höller"));
 		Submission submission = new Submission();
 		submission.setSpeaker(speaker);
 		Submission saved = this.submissionRepository.save(submission);
@@ -42,8 +42,8 @@ public class SubmissionTest {
 
 	@Test
 	public void findBySpeaker() {
-		Speaker speaker = this.entityManager.persist(
-				new Speaker("jhoeller", "Jürgen Höller"));
+		User speaker = this.entityManager.persist(
+				new User("jhoeller", "Jürgen Höller"));
 		this.submissionRepository.save(createDummySubmission(speaker, "Foo"));
 		this.submissionRepository.save(createDummySubmission(speaker, "Bar"));
 
@@ -51,7 +51,7 @@ public class SubmissionTest {
 		assertThat(submissions).hasSize(2);
 	}
 
-	private Submission createDummySubmission(Speaker speaker, String title) {
+	private Submission createDummySubmission(User speaker, String title) {
 		Submission submission = new Submission();
 		submission.setSpeaker(speaker);
 		submission.setTitle(title);

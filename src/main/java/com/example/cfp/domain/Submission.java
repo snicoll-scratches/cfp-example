@@ -21,7 +21,7 @@ public class Submission implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "speaker_id")
-	private Speaker speaker;
+	private User speaker;
 
 	@Enumerated
 	private Track track;
@@ -48,16 +48,16 @@ public class Submission implements Serializable {
 		return id;
 	}
 
-	public Speaker getSpeaker() {
+	public User getSpeaker() {
 		return speaker;
 	}
 
-	public void setSpeaker(Speaker speaker) {
+	public void setSpeaker(User speaker) {
 		this.speaker = speaker;
 	}
 
 	public Track getTrack() {
-		return track;
+		return this.track;
 	}
 
 	public void setTrack(Track track) {
@@ -65,7 +65,7 @@ public class Submission implements Serializable {
 	}
 
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
 	public void setTitle(String title) {
@@ -73,7 +73,7 @@ public class Submission implements Serializable {
 	}
 
 	public SubmissionStatus getStatus() {
-		return status;
+		return this.status;
 	}
 
 	public void setStatus(SubmissionStatus status) {
@@ -81,7 +81,7 @@ public class Submission implements Serializable {
 	}
 
 	public String getSummary() {
-		return summary;
+		return this.summary;
 	}
 
 	public void setSummary(String summary) {
@@ -89,7 +89,7 @@ public class Submission implements Serializable {
 	}
 
 	public String getNotes() {
-		return notes;
+		return this.notes;
 	}
 
 	public void setNotes(String notes) {
@@ -98,7 +98,7 @@ public class Submission implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Submission{" + "id=" + id + ", title='" + title + '\'' + ", status='" + status + '\'' + '}';
+		return "Submission{" + "id=" + this.id + ", title='" + this.title + '\'' + ", status='" + this.status + '\'' + '}';
 	}
 
 }

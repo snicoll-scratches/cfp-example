@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 
 @Entity
 @SuppressWarnings("serial")
-public class Speaker implements Serializable {
+public class User implements Serializable {
 
 	@GeneratedValue
 	@Id
@@ -34,10 +34,10 @@ public class Speaker implements Serializable {
 	@OneToMany(mappedBy = "speaker", cascade = CascadeType.ALL)
 	private Set<Submission> submissions;
 
-	public Speaker() {
+	public User() {
 	}
 
-	public Speaker(String github, String name) {
+	public User(String github, String name) {
 		this.github = github;
 		this.name = name;
 	}

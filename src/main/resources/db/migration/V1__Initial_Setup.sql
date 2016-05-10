@@ -1,9 +1,9 @@
-CREATE TABLE SPEAKER (
+CREATE TABLE USER (
   id         BIGINT auto_increment,
   name       VARCHAR(100) NOT NULL,
   github     VARCHAR(30),
   twitter    VARCHAR(30),
-  avatar_url  VARCHAR(200),
+  avatar_url VARCHAR(200),
   bio        TEXT,
   PRIMARY KEY (id)
 );
@@ -14,7 +14,7 @@ CREATE TABLE SUBMISSION (
   title      VARCHAR(100),
   status     INTEGER,
   summary    TEXT,
-  track INT,
+  track      INT,
   PRIMARY KEY (id)
 );
 

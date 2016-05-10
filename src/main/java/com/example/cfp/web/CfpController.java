@@ -2,7 +2,7 @@ package com.example.cfp.web;
 
 import javax.validation.Valid;
 
-import com.example.cfp.domain.Speaker;
+import com.example.cfp.domain.User;
 import com.example.cfp.domain.Track;
 import com.example.cfp.submission.SubmissionRequest;
 import com.example.cfp.submission.SubmissionService;
@@ -35,22 +35,22 @@ public class CfpController {
 
 	@RequestMapping(path = "/submit", method = RequestMethod.POST)
 	public String submit(@Valid SubmissionForm submissionForm, BindingResult bindingResult,
-			@ModelAttribute("currentUser") Speaker speaker, RedirectAttributes attributes, Model model) {
+			@ModelAttribute("currentUser") User user, RedirectAttributes attributes, Model model) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("tracks", Track.values());
 			model.addAttribute("submissionForm", submissionForm);
 			return "submit";
 		}
 		else {
-			this.submissionService.create(createRequest(submissionForm, speaker));
+			this.submissionService.create(createRequest(submissionForm, user));
 			attributes.addFlashAttribute("successMessage", "Thanks! Your talk proposal has been submitted.");
 			return "redirect:/submit";
 		}
 	}
 
-	private SubmissionRequest createRequest(SubmissionForm form, Speaker speaker) {
+	private SubmissionRequest createRequest(SubmissionForm form, User user) {
 		SubmissionRequest request = new SubmissionRequest();
-		request.setSpeaker(speaker.getGithub(), speaker.getName());
+		request.setSpeaker(user.getGithub(), user.getName());
 		request.setTitle(form.getTitle());
 		request.setSummary(form.getSummary());
 		request.setNotes(form.getNotes());

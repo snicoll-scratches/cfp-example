@@ -3,8 +3,8 @@ package com.example.cfp.web;
 import java.security.Principal;
 
 import com.example.cfp.CfpProperties;
-import com.example.cfp.domain.Speaker;
-import com.example.cfp.domain.SpeakerRepository;
+import com.example.cfp.domain.User;
+import com.example.cfp.domain.UserRepository;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,17 +15,17 @@ public class SecurityControllerAdvice {
 
 	private final CfpProperties cfpProperties;
 
-	private final SpeakerRepository speakerRepository;
+	private final UserRepository userRepository;
 
-	public SecurityControllerAdvice(CfpProperties cfpProperties, SpeakerRepository speakerRepository) {
+	public SecurityControllerAdvice(CfpProperties cfpProperties, UserRepository userRepository) {
 		this.cfpProperties = cfpProperties;
-		this.speakerRepository = speakerRepository;
+		this.userRepository = userRepository;
 	}
 
 	@ModelAttribute("currentUser")
-	public Speaker currentUser(@AuthenticationPrincipal Principal principal) {
+	public User currentUser(@AuthenticationPrincipal Principal principal) {
 		if (principal != null) {
-			return this.speakerRepository.findByGithub(principal.getName());
+			return this.userRepository.findByGithub(principal.getName());
 		}
 		else {
 			return null;
@@ -37,4 +37,5 @@ public class SecurityControllerAdvice {
 		return principal != null
 				&& this.cfpProperties.getSecurity().getAdmins().contains(principal.getName());
 	}
+
 }

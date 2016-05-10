@@ -1,7 +1,7 @@
 package com.example.cfp.submission;
 
-import com.example.cfp.domain.Speaker;
-import com.example.cfp.domain.SpeakerRepository;
+import com.example.cfp.domain.User;
+import com.example.cfp.domain.UserRepository;
 import com.example.cfp.domain.Submission;
 import com.example.cfp.domain.SubmissionRepository;
 
@@ -11,27 +11,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class SubmissionService {
 
-	private final SpeakerRepository speakerRepository;
+	private final UserRepository userRepository;
 	private final SubmissionRepository submissionRepository;
 
-	public SubmissionService(SpeakerRepository speakerRepository, SubmissionRepository submissionRepository) {
-		this.speakerRepository = speakerRepository;
+	public SubmissionService(UserRepository userRepository, SubmissionRepository submissionRepository) {
+		this.userRepository = userRepository;
 		this.submissionRepository = submissionRepository;
-	}
-
-	public SpeakerRepository getSpeakerRepository() {
-		return speakerRepository;
-	}
-
-	public SubmissionRepository getSubmissionRepository() {
-		return submissionRepository;
 	}
 
 	@Transactional
 	public Submission create(SubmissionRequest request) {
-		Speaker speaker = initSpeaker(request);
+		User user = initSpeaker(request);
 		Submission submission = new Submission();
-		submission.setSpeaker(speaker);
+		submission.setSpeaker(user);
 		submission.setTitle(request.getTitle());
 		submission.setSummary(request.getSummary());
 		submission.setNotes(request.getNotes());
@@ -39,15 +31,23 @@ public class SubmissionService {
 		return this.submissionRepository.save(submission);
 	}
 
-	private Speaker initSpeaker(SubmissionRequest request) {
-		Speaker speaker = this.speakerRepository.findByGithub(request.getGithubId());
-		if (speaker == null) {
-			speaker = new Speaker();
-			speaker.setGithub(request.getGithubId());
-			speaker.setName(request.getName());
-			speaker = this.speakerRepository.save(speaker);
+	protected UserRepository getUserRepository() {
+		return this.userRepository;
+	}
+
+	protected SubmissionRepository getSubmissionRepository() {
+		return this.submissionRepository;
+	}
+
+	private User initSpeaker(SubmissionRequest request) {
+		User user = this.userRepository.findByGithub(request.getGithubId());
+		if (user == null) {
+			user = new User();
+			user.setGithub(request.getGithubId());
+			user.setName(request.getName());
+			user = this.userRepository.save(user);
 		}
-		return speaker;
+		return user;
 	}
 
 }

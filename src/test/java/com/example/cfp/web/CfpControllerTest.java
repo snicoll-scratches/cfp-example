@@ -1,6 +1,5 @@
 package com.example.cfp.web;
 
-import static org.mockito.BDDMockito.eq;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
@@ -8,8 +7,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.example.cfp.domain.Speaker;
-import com.example.cfp.domain.SpeakerRepository;
+import com.example.cfp.domain.User;
 import com.example.cfp.domain.Track;
 import com.example.cfp.submission.SubmissionService;
 import org.junit.Test;
@@ -41,7 +39,7 @@ public class CfpControllerTest {
 	@WithMockUser("jsmith")
 	public void submitNewSpeaker() throws Exception {
 		given(this.securityControllerAdvice.currentUser(any()))
-				.willReturn(new Speaker("jsmith", "John Smith"));
+				.willReturn(new User("jsmith", "John Smith"));
 
 		SubmissionForm form = new SubmissionForm();
 		form.setTitle("Alice in Wonderland");
