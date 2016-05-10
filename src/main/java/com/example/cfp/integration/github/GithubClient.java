@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.actuate.metrics.CounterService;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
@@ -21,7 +22,7 @@ public class GithubClient {
 
 	private final RestTemplate restTemplate;
 
-	public GithubClient(CounterService counterService, RestTemplate restTemplate) {
+	public GithubClient(CounterService counterService, @Qualifier("github") RestTemplate restTemplate) {
 		this.counterService = counterService;
 		this.restTemplate = restTemplate;
 	}

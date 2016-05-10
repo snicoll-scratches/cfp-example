@@ -1,5 +1,6 @@
 package com.example.cfp;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -15,6 +16,7 @@ public class CfpApplication {
 	}
 
 	@Bean
+	@Qualifier("github")
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
