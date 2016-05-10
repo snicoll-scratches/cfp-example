@@ -11,16 +11,20 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableCaching
-public class CachingConfig {
+class CachingConfig {
 
 	@Bean
 	public JCacheManagerCustomizer cacheManagerCustomizer() {
 		return c -> {
-			c.createCache("github.commits", new MutableConfiguration<>()
-					.setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(Duration.ONE_MINUTE)));
-			c.createCache("github.users", new MutableConfiguration<>()
-					.setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(Duration.ONE_HOUR)));
+			c.createCache("github.commits", createConfiguration(Duration.ONE_MINUTE));
+			c.createCache("github.polishCommit", createConfiguration(Duration.FIVE_MINUTES));
+			c.createCache("github.users", createConfiguration(Duration.ONE_HOUR));
 		};
+	}
+
+	private MutableConfiguration<Object, Object> createConfiguration(Duration expiration) {
+		return new MutableConfiguration<>()
+				.setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(expiration));
 	}
 
 }

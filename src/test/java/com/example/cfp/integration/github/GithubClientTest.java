@@ -68,6 +68,43 @@ public class GithubClientTest {
 	}
 
 	@Test
+	public void getRecentPolishCommitNoMatch() {
+		expectJsonPages("https://api.github.com/repos/spring-projects/spring-framework/commits",
+				"github/spring-framework-commits-no-polish.json",
+				"github/spring-framework-commits-no-polish.json",
+				"github/spring-framework-commits-no-polish.json",
+				"github/spring-framework-commits-no-polish.json",
+				"github/spring-framework-commits-no-polish.json");
+		Commit recentPolish = this.githubClient.getRecentPolishCommit("spring-projects", "spring-framework");
+		assertThat(recentPolish).isNull();
+		verify(this.counterService, times(5)).increment("cfp.github.requests");
+	}
+
+	@Test
+	public void getRecentPolishCommitMatch() {
+		expectJsonPages("https://api.github.com/repos/spring-projects/spring-framework/commits",
+				"github/spring-framework-commits-no-polish.json",
+				"github/spring-framework-commits-no-polish.json",
+				"github/spring-framework-commits.json",
+				"github/spring-framework-commits-no-polish.json",
+				"github/spring-framework-commits-no-polish.json");
+		Commit recentPolish = this.githubClient.getRecentPolishCommit("spring-projects", "spring-framework");
+		assertThat(recentPolish).isNotNull();
+		assertThat(recentPolish.getMessage()).isEqualTo("Polishing");
+		assertThat(recentPolish.getSha()).isEqualTo("07ea3745c49ec506e17dcb56107639cf36339d2c");
+		verify(this.counterService, times(3)).increment("cfp.github.requests");
+	}
+
+	@Test
+	public void getRecentPolishCommitNoMatchSinglePage() {
+		expectJsonPages("https://api.github.com/repos/spring-projects/spring-framework/commits",
+				"github/spring-framework-commits-no-polish.json");
+		Commit recentPolish = this.githubClient.getRecentPolishCommit("spring-projects", "spring-framework");
+		assertThat(recentPolish).isNull();
+		verify(this.counterService, times(1)).increment("cfp.github.requests");
+	}
+
+	@Test
 	public void getUser() {
 		expectJson("https://api.github.com/users/jsmith", "github/jsmith.json");
 		GithubUser user = this.githubClient.getUser("jsmith");
@@ -75,13 +112,31 @@ public class GithubClientTest {
 				"https://acme.org/blog", "https://acme.org/team/jsmith/avatar");
 	}
 
+	private void expectJsonPages(String initialUrl, String... pages) {
+		for (int i = 0; i < pages.length; i++) {
+			String url = i == 0 ? initialUrl : initialUrl + "?page=" + (i + 1);
+			String nextPage = (i+1) < pages.length ? initialUrl + "?page=" + (i + 2) : null;
+			expectJson(url, pages[i], nextPage);
+		}
+	}
+
 	private void expectJson(String url, String bodyPath) {
+		expectJson(url, bodyPath, null);
+	}
+
+	private void expectJson(String url, String bodyPath, String nextPage) {
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		if (nextPage != null) {
+			httpHeaders.set(HttpHeaders.LINK,
+					String.format("<%s>; rel=\"next\"", nextPage));
+		}
 		this.mockServer.expect(requestTo(url))
 				.andExpect(method(HttpMethod.GET))
 				.andExpect(header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE))
 				.andRespond(withStatus(HttpStatus.OK)
 						.body(new ClassPathResource(bodyPath))
-						.contentType(MediaType.APPLICATION_JSON));
+						.headers(httpHeaders));
 	}
 
 	private void assertCommit(Commit commit, String sha, String message, String date,
