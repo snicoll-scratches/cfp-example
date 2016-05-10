@@ -116,3 +116,8 @@ nav.navbar {
 .days-since-last-polish p {
     font-size: 3em;
 }
+
+/* login form */
+.login {
+    margin-top:10%;
+}
