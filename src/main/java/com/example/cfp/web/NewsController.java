@@ -22,14 +22,16 @@ public class NewsController {
 
 	@RequestMapping("/news")
 	public String home(Model model) {
-		List<Commit> latestFrameworkCommits = githubClient
-				.getRecentCommits("spring-projects", "spring-framework")
-				.stream().limit(5).collect(Collectors.toList());
-		List<Commit> latestBootCommits = githubClient
-				.getRecentCommits("spring-projects", "spring-boot")
-				.stream().limit(5).collect(Collectors.toList());
-		model.addAttribute("latestFrameworkCommits", latestFrameworkCommits);
-		model.addAttribute("latestBootCommits", latestBootCommits);
+		model.addAttribute("latestFrameworkCommits",
+				getRecentCommits("spring-projects", "spring-framework"));
+		model.addAttribute("latestBootCommits",
+				getRecentCommits("spring-projects", "spring-boot"));
 		return "news";
+	}
+
+	private List<Commit> getRecentCommits(String organization, String project) {
+		return this.githubClient
+				.getRecentCommits(organization, project)
+				.stream().limit(5).collect(Collectors.toList());
 	}
 }

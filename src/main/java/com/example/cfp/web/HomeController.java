@@ -19,14 +19,16 @@ public class HomeController {
 
 	@RequestMapping("/")
 	public String home(Model model) {
-		Commit latestFrameworkCommit = githubClient
-				.getRecentCommits("spring-projects", "spring-framework")
-				.stream().findFirst().get();
-		Commit latestBootCommit = githubClient
-				.getRecentCommits("spring-projects", "spring-boot")
-				.stream().findFirst().get();
-		model.addAttribute("latestFrameworkCommit", latestFrameworkCommit);
-		model.addAttribute("latestBootCommit", latestBootCommit);
+		model.addAttribute("latestFrameworkCommit",
+				getLatestCommit("spring-projects", "spring-framework"));
+		model.addAttribute("latestBootCommit",
+				getLatestCommit("spring-projects", "spring-boot"));
 		return "index";
+	}
+
+	private Commit getLatestCommit(String organization, String project) {
+		return this.githubClient
+				.getRecentCommits(organization, project)
+				.stream().findFirst().get();
 	}
 }

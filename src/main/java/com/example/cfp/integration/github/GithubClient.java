@@ -26,7 +26,7 @@ public class GithubClient {
 		this.restTemplate = restTemplate;
 	}
 
-	@Cacheable("commits")
+	@Cacheable("github.commits")
 	public List<Commit> getRecentCommits(String organization, String project) {
 		String url = String.format(
 				"https://api.github.com/repos/%s/%s/commits", organization, project);
