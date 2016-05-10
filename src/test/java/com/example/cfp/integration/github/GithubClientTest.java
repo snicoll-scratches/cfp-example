@@ -49,9 +49,11 @@ public class GithubClientTest {
 		assertThat(recentCommits).hasSize(5);
 		assertCommit(recentCommits.get(0), "7737c3c",
 				"Warn about non-static BeanDefinitionRegistryPostProcessor declarations on @Configuration classes",
+				"2016-05-02T13:19:05Z",
 				"jhoeller", "Juergen Hoeller", "https://avatars.githubusercontent.com/u/1263688?v=3");
 		assertCommit(recentCommits.get(3), "09b45d2",
 				"Validate callback is always invoked in DMLC#stop",
+				"2016-05-02T11:33:05Z",
 				"snicoll", "Stephane Nicoll", "https://avatars.githubusercontent.com/u/490484?v=3");
 		verify(this.counterService, times(1)).increment("cfp.github.requests");
 	}
@@ -82,11 +84,12 @@ public class GithubClientTest {
 						.contentType(MediaType.APPLICATION_JSON));
 	}
 
-	private void assertCommit(Commit commit, String sha, String message,
+	private void assertCommit(Commit commit, String sha, String message, String date,
 			String committerId, String committerName, String committerAvatar) {
 		assertThat(commit).isNotNull();
 		assertThat(commit.getSha()).isEqualTo(sha);
 		assertThat(commit.getMessage()).isEqualTo(message);
+		assertThat(commit.getDate().toString()).isEqualTo(date);
 		Commit.Committer committer = commit.getCommitter();
 		assertThat(committer).isNotNull();
 		assertThat(committer.getId()).isEqualTo(committerId);

@@ -1,7 +1,9 @@
 package com.example.cfp.web;
 
+import java.time.Instant;
 import java.util.Collections;
 
+import com.example.cfp.domain.SpeakerRepository;
 import com.example.cfp.integration.github.Commit;
 import com.example.cfp.integration.github.Commit.Committer;
 import com.example.cfp.integration.github.GithubClient;
@@ -32,17 +34,22 @@ public class GithubControllerTest {
 	@MockBean
 	private GithubClient githubClient;
 
+	@MockBean
+	private SpeakerRepository speakerRepository;
+
 	@Test
 	public void getLatestCommit() throws Exception {
+		Instant now = Instant.now();
 		given(this.githubClient.getRecentCommits("spring-projects", "spring-framework"))
 				.willReturn(Collections.singletonList(new Commit("abcdefg", "Polish",
-						new Committer("jsmith", "John Smith", null))));
+						new Committer("jsmith", "John Smith", null), now)));
 
 		this.mvc.perform(post("/public/github/spring-projects/spring-framework/commits/latest")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.sha", is("abcdefg")))
 				.andExpect(jsonPath("$.message", is("Polish")))
+				.andExpect(jsonPath("$.date", is(now.toString())))
 				.andExpect(jsonPath("$.committer.id", is("jsmith")))
 				.andExpect(jsonPath("$.committer.name", is("John Smith")));
 		verify(this.githubClient).getRecentCommits("spring-projects", "spring-framework");

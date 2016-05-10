@@ -1,6 +1,7 @@
 package com.example.cfp.integration.github;
 
 import java.io.Serializable;
+import java.time.Instant;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -14,10 +15,13 @@ public class Commit implements Serializable {
 
 	private final Committer committer;
 
-	public Commit(String sha, String message, Committer committer) {
+	private final Instant date;
+
+	public Commit(String sha, String message, Committer committer, Instant date) {
 		this.sha = sha;
 		this.message = message;
 		this.committer = committer;
+		this.date = date;
 	}
 
 	public String getSha() {
@@ -26,6 +30,10 @@ public class Commit implements Serializable {
 
 	public String getMessage() {
 		return this.message;
+	}
+
+	public Instant getDate() {
+		return date;
 	}
 
 	public Committer getCommitter() {
