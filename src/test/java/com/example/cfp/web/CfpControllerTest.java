@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -33,13 +34,14 @@ public class CfpControllerTest {
 	private SubmissionService submissionService;
 
 	@MockBean
-	private SpeakerRepository speakerRepository;
+	private SecurityControllerAdvice securityControllerAdvice;
 
 
 	@Test
 	@WithMockUser("jsmith")
 	public void submitNewSpeaker() throws Exception {
-		given(this.speakerRepository.findByGithub("jsmith")).willReturn(new Speaker("jsmith", "John Smith"));
+		given(this.securityControllerAdvice.currentUser(any()))
+				.willReturn(new Speaker("jsmith", "John Smith"));
 
 		SubmissionForm form = new SubmissionForm();
 		form.setTitle("Alice in Wonderland");
@@ -52,9 +54,10 @@ public class CfpControllerTest {
 				.param("notes", "this rocks")
 				.param("track", Track.ALTERNATE_LANGUAGES.getId())
 				.with(csrf()))
-				.andExpect(status().isOk());
+				.andExpect(status().isFound())
+				.andExpect(header().string(HttpHeaders.LOCATION, "/submit?navSection=submit"));
 		verify(this.submissionService).create(any());
-		verify(this.speakerRepository).findByGithub(eq("jsmith"));
+		verify(this.securityControllerAdvice).currentUser(any());
 	}
 
 }

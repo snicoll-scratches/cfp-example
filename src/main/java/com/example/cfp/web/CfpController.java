@@ -3,7 +3,6 @@ package com.example.cfp.web;
 import javax.validation.Valid;
 
 import com.example.cfp.domain.Speaker;
-import com.example.cfp.domain.SpeakerRepository;
 import com.example.cfp.domain.Track;
 import com.example.cfp.submission.SubmissionRequest;
 import com.example.cfp.submission.SubmissionService;
@@ -12,13 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@Controller("/cfp")
+@Controller
 @Navigation(Section.SUBMIT)
 public class CfpController {
 
@@ -29,14 +26,14 @@ public class CfpController {
 	}
 
 
-	@RequestMapping("/submit")
+	@RequestMapping(path = "/cfp/submit", method = RequestMethod.GET)
 	public String submitForm(Model model) {
 		model.addAttribute("tracks", Track.values());
 		model.addAttribute("submissionForm", new SubmissionForm());
 		return "submit";
 	}
 
-	@RequestMapping(path = "/submit", method = RequestMethod.POST)
+	@RequestMapping(path = "/cfp/submit", method = RequestMethod.POST)
 	public String submit(@Valid SubmissionForm submissionForm, BindingResult bindingResult,
 			@ModelAttribute("currentUser") Speaker speaker, RedirectAttributes attributes, Model model) {
 		if (bindingResult.hasErrors()) {
