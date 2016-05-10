@@ -22,15 +22,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.antMatcher("/**")
-				.authorizeRequests()
+		http.authorizeRequests()
 				.antMatchers("/admin/**").hasRole("ADMIN")
 				.antMatchers("/", "/login**", "/webjars/**", "/public/**").permitAll()
 				.antMatchers("/css/**", "/img/**", "/webjars/**", "/bootstrap/**").permitAll()
 				.anyRequest().authenticated()
-				.and().csrf().ignoringAntMatchers("/admin/h2-console/*")
-				.and().logout().logoutSuccessUrl("/").permitAll();
-		http.headers(). frameOptions().sameOrigin();
+				.and()
+			.csrf()
+				.ignoringAntMatchers("/admin/h2-console/*")
+				.and()
+			.logout()
+				.logoutSuccessUrl("/")
+				.permitAll()
+				.and()
+			.headers()
+				.frameOptions().sameOrigin();
 	}
 
 	@Bean
