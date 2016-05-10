@@ -6,6 +6,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface SubmissionRepository extends PagingAndSortingRepository<Submission, Long> {
 
-	List<Submission> findBySpeaker(User user);
+	List<Submission> findBySpeakerEmail(String email);
 
 }

@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class SubmissionForm {
 
 	@NotEmpty
-	private String github;
+	private String email;
 
 	@NotEmpty
 	private String name;
@@ -24,12 +24,12 @@ public class SubmissionForm {
 	@NotNull
 	private Track track;
 
-	public String getGithub() {
-		return this.github;
+	public String getEmail() {
+		return this.email;
 	}
 
-	public void setGithub(String github) {
-		this.github = github;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getName() {
@@ -41,7 +41,7 @@ public class SubmissionForm {
 	}
 
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
 	public void setTitle(String title) {
@@ -49,7 +49,7 @@ public class SubmissionForm {
 	}
 
 	public String getSummary() {
-		return summary;
+		return this.summary;
 	}
 
 	public void setSummary(String summary) {
@@ -57,7 +57,7 @@ public class SubmissionForm {
 	}
 
 	public String getNotes() {
-		return notes;
+		return this.notes;
 	}
 
 	public void setNotes(String notes) {
@@ -65,7 +65,7 @@ public class SubmissionForm {
 	}
 
 	public Track getTrack() {
-		return track;
+		return this.track;
 	}
 
 	public void setTrack(Track track) {

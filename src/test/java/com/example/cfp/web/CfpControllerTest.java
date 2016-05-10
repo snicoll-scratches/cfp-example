@@ -1,14 +1,8 @@
 package com.example.cfp.web;
 
-import static org.mockito.BDDMockito.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.verify;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import com.example.cfp.domain.User;
+import com.example.cfp.domain.Submission;
 import com.example.cfp.domain.Track;
+import com.example.cfp.security.SecurityConfig;
 import com.example.cfp.submission.SubmissionService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,13 +10,22 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = CfpController.class)
+@Import(SecurityConfig.class)
 public class CfpControllerTest {
 
 	@Autowired
@@ -31,22 +34,12 @@ public class CfpControllerTest {
 	@MockBean
 	private SubmissionService submissionService;
 
-	@MockBean
-	private SecurityControllerAdvice securityControllerAdvice;
-
-
 	@Test
-	@WithMockUser("jsmith")
-	public void submitNewSpeaker() throws Exception {
-		given(this.securityControllerAdvice.currentUser(any()))
-				.willReturn(new User("jsmith", "John Smith"));
-
-		SubmissionForm form = new SubmissionForm();
-		form.setTitle("Alice in Wonderland");
-		form.setSummary("my abstract");
-		form.setNotes("this rocks");
-		given(this.submissionService.create(any())).willReturn(null);
+	public void submitTalk() throws Exception {
+		given(this.submissionService.create(any())).willReturn(new Submission());
 		this.mvc.perform(post("/submit")
+				.param("email", "john@example.com")
+				.param("name", "John Smith")
 				.param("title", "Alice in Wonderland")
 				.param("summary", "my abstract")
 				.param("notes", "this rocks")
@@ -55,7 +48,6 @@ public class CfpControllerTest {
 				.andExpect(status().isFound())
 				.andExpect(header().string(HttpHeaders.LOCATION, "/submit?navSection=submit"));
 		verify(this.submissionService).create(any());
-		verify(this.securityControllerAdvice).currentUser(any());
 	}
 
 }

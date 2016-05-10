@@ -4,7 +4,7 @@ import com.example.cfp.domain.Track;
 
 public class SubmissionRequest {
 
-	private String githubId;
+	private String email;
 
 	private String name;
 
@@ -16,12 +16,12 @@ public class SubmissionRequest {
 
 	private Track track;
 
-	public String getGithubId() {
-		return githubId;
+	public String getEmail() {
+		return this.email;
 	}
 
-	public void setGithubId(String githubId) {
-		this.githubId = githubId;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getName() {
@@ -33,7 +33,7 @@ public class SubmissionRequest {
 	}
 
 	public String getTitle() {
-		return title;
+		return this.title;
 	}
 
 	public void setTitle(String title) {
@@ -41,7 +41,7 @@ public class SubmissionRequest {
 	}
 
 	public String getSummary() {
-		return summary;
+		return this.summary;
 	}
 
 	public void setSummary(String summary) {
@@ -49,7 +49,7 @@ public class SubmissionRequest {
 	}
 
 	public String getNotes() {
-		return notes;
+		return this.notes;
 	}
 
 	public void setNotes(String notes) {
@@ -57,15 +57,15 @@ public class SubmissionRequest {
 	}
 
 	public Track getTrack() {
-		return track;
+		return this.track;
 	}
 
 	public void setTrack(Track track) {
 		this.track = track;
 	}
 
-	public void setSpeaker(String githubId, String name) {
-		setGithubId(githubId);
+	public void setSpeaker(String email, String name) {
+		setEmail(email);
 		setName(name);
 	}
 
@@ -82,7 +82,7 @@ public class SubmissionRequest {
 
 		SubmissionRequest that = (SubmissionRequest) o;
 
-		if (this.githubId != null ? !this.githubId.equals(that.githubId) : that.githubId != null) return false;
+		if (this.email != null ? !this.email.equals(that.email) : that.email != null) return false;
 		if (this.name != null ? !this.name.equals(that.name) : that.name != null) return false;
 		if (this.title != null ? !this.title.equals(that.title) : that.title != null) return false;
 		if (this.summary != null ? !this.summary.equals(that.summary) : that.summary != null) return false;
@@ -92,7 +92,7 @@ public class SubmissionRequest {
 
 	@Override
 	public int hashCode() {
-		int result = this.githubId != null ? this.githubId.hashCode() : 0;
+		int result = this.email != null ? this.email.hashCode() : 0;
 		result = 31 * result + (this.name != null ? this.name.hashCode() : 0);
 		result = 31 * result + (this.title != null ? this.title.hashCode() : 0);
 		result = 31 * result + (this.summary != null ? this.summary.hashCode() : 0);

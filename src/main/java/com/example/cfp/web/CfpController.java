@@ -48,7 +48,7 @@ public class CfpController {
 
 	private SubmissionRequest createRequest(SubmissionForm form) {
 		SubmissionRequest request = new SubmissionRequest();
-		request.setSpeaker(form.getGithub(), form.getName());
+		request.setSpeaker(form.getEmail(), form.getName());
 		request.setTitle(form.getTitle());
 		request.setSummary(form.getSummary());
 		request.setNotes(form.getNotes());

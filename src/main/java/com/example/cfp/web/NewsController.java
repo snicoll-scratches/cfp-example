@@ -2,8 +2,11 @@ package com.example.cfp.web;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.example.cfp.integration.github.Commit;
 import com.example.cfp.integration.github.GithubClient;
@@ -39,8 +42,13 @@ public class NewsController {
 	}
 
 	private long daysSinceLastPolishCommit() {
-		Commit polishCommit = this.githubClient.getRecentPolishCommit("spring-projects", "spring-framework");
-		Duration duration = Duration.between(polishCommit.getDate(), Instant.now());
-		return duration.toDays();
+		Commit fwkCommit = this.githubClient.getRecentPolishCommit("spring-projects", "spring-framework");
+		Commit bootCommit = this.githubClient.getRecentPolishCommit("spring-projects", "spring-boot");
+		Instant instant = Stream.of(fwkCommit, bootCommit)
+				.filter(Objects::nonNull)
+				.map(Commit::getDate)
+				.max(Instant::compareTo).get();
+		return Duration.between(instant, Instant.now()).toDays();
 	}
+
 }

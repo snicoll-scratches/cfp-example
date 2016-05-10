@@ -11,7 +11,6 @@ import org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration;
 import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -20,40 +19,31 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ImportAutoConfiguration({CacheAutoConfiguration.class, FlywayAutoConfiguration.class})
-@TestPropertySource(properties = "spring.cache.type=none")
 public class SubmissionTest {
-
-	@Autowired
-	private TestEntityManager entityManager;
 
 	@Autowired
 	public SubmissionRepository submissionRepository;
 
 	@Test
 	public void newSubmissionHasDraftStatus() {
-		User speaker = this.entityManager.persist(
-				new User("jhoeller", "Jürgen Höller"));
 		Submission submission = new Submission();
-		submission.setSpeaker(speaker);
+		submission.setSpeakerEmail("john@example.com");
 		Submission saved = this.submissionRepository.save(submission);
 		assertThat(saved.getStatus()).isEqualTo(SubmissionStatus.DRAFT);
 	}
 
 	@Test
-	public void findBySpeaker() {
-		User speaker = this.entityManager.persist(
-				new User("jhoeller", "Jürgen Höller"));
-		this.submissionRepository.save(createDummySubmission(speaker, "Foo"));
-		this.submissionRepository.save(createDummySubmission(speaker, "Bar"));
+	public void findBySpeakerEmail() {
+		this.submissionRepository.save(createDummySubmission("john@example.com", "Foo"));
+		this.submissionRepository.save(createDummySubmission("john@example.com", "Bar"));
 
-		List<Submission> submissions = this.submissionRepository.findBySpeaker(speaker);
+		List<Submission> submissions = this.submissionRepository.findBySpeakerEmail("john@example.com");
 		assertThat(submissions).hasSize(2);
 	}
 
-	private Submission createDummySubmission(User speaker, String title) {
+	private Submission createDummySubmission(String email, String title) {
 		Submission submission = new Submission();
-		submission.setSpeaker(speaker);
+		submission.setSpeakerEmail(email);
 		submission.setTitle(title);
 		submission.setSummary("Live coding 4tw");
 		submission.setNotes("this is good");

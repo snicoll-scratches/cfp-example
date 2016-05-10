@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-@EnableConfigurationProperties(CfpProperties.class)
 public class CfpApplication {
 
 	public static void main(String[] args) {
