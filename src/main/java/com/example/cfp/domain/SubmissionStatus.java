@@ -17,7 +17,7 @@ public enum SubmissionStatus {
 	}
 
 	public String getDisplayName() {
-		return displayName;
+		return this.displayName;
 	}
 
 	public String getId() {

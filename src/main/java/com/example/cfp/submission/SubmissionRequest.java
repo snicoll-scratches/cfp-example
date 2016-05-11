@@ -69,10 +69,11 @@ public class SubmissionRequest {
 		setName(name);
 	}
 
-	public void setTalk(String title, String summary, String notes) {
+	public void setTalk(String title, String summary, String notes, Track track) {
 		setTitle(title);
 		setSummary(summary);
 		setNotes(notes);
+		setTrack(track);
 	}
 
 	@Override
@@ -86,8 +87,8 @@ public class SubmissionRequest {
 		if (this.name != null ? !this.name.equals(that.name) : that.name != null) return false;
 		if (this.title != null ? !this.title.equals(that.title) : that.title != null) return false;
 		if (this.summary != null ? !this.summary.equals(that.summary) : that.summary != null) return false;
-		return this.notes != null ? this.notes.equals(that.notes) : that.notes == null;
-
+		if (this.notes != null ? !this.notes.equals(that.notes) : that.notes != null) return false;
+		return this.track == that.track;
 	}
 
 	@Override
@@ -97,6 +98,7 @@ public class SubmissionRequest {
 		result = 31 * result + (this.title != null ? this.title.hashCode() : 0);
 		result = 31 * result + (this.summary != null ? this.summary.hashCode() : 0);
 		result = 31 * result + (this.notes != null ? this.notes.hashCode() : 0);
+		result = 31 * result + (this.track != null ? this.track.hashCode() : 0);
 		return result;
 	}
 

@@ -23,7 +23,6 @@ public class CfpController {
 		this.submissionService = submissionService;
 	}
 
-
 	@RequestMapping(path = "/submit", method = RequestMethod.GET)
 	public String submitForm(Model model) {
 		model.addAttribute("tracks", Track.values());

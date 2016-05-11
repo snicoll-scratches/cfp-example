@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import com.example.cfp.domain.Track;
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class SubmissionForm {
+class SubmissionForm {
 
 	@NotEmpty
 	private String email;

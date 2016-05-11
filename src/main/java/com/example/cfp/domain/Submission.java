@@ -45,7 +45,7 @@ public class Submission implements Serializable {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public String getSpeakerEmail() {

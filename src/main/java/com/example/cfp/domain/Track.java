@@ -19,7 +19,7 @@ public enum Track {
 	}
 
 	public String getDisplayName() {
-		return displayName;
+		return this.displayName;
 	}
 
 	public String getId() {

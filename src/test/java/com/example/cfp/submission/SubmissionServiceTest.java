@@ -3,6 +3,8 @@ package com.example.cfp.submission;
 import java.util.List;
 
 import com.example.cfp.domain.Submission;
+import com.example.cfp.domain.SubmissionStatus;
+import com.example.cfp.domain.Track;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -23,10 +25,11 @@ public class SubmissionServiceTest {
 	private SubmissionService submissionService;
 
 	@Test
-	public void submitTalk() throws Exception {
+	public void createTalk() throws Exception {
 		SubmissionRequest request = new SubmissionRequest();
 		request.setSpeaker("john@example.com", "John Smith");
-		request.setTalk("Alice in Wonderland", "my abstract", "this rocks");
+		request.setTalk("Alice in Wonderland", "my abstract", "this rocks",
+				Track.ALTERNATE_LANGUAGES);
 		Submission submission = this.submissionService.create(request);
 		assertThat(submission).isNotNull();
 		assertThat(submission.getSpeakerEmail()).isEqualTo("john@example.com");
@@ -34,6 +37,8 @@ public class SubmissionServiceTest {
 		assertThat(submission.getTitle()).isEqualTo("Alice in Wonderland");
 		assertThat(submission.getSummary()).isEqualTo("my abstract");
 		assertThat(submission.getNotes()).isEqualTo("this rocks");
+		assertThat(submission.getTrack()).isEqualTo(Track.ALTERNATE_LANGUAGES);
+		assertThat(submission.getStatus()).isEqualTo(SubmissionStatus.DRAFT);
 
 		List<Submission> submissions = this.submissionService.getSubmissionRepository()
 				.findBySpeakerEmail("john@example.com");

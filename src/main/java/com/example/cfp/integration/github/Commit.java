@@ -33,7 +33,7 @@ public class Commit implements Serializable {
 	}
 
 	public Instant getDate() {
-		return date;
+		return this.date;
 	}
 
 	public Committer getCommitter() {

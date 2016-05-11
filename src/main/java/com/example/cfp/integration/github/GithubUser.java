@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @SuppressWarnings("serial")
-public class GithubUser implements Serializable {
+class GithubUser implements Serializable {
 
 	private String name;
 
@@ -16,7 +16,7 @@ public class GithubUser implements Serializable {
 	private String avatar;
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -24,7 +24,7 @@ public class GithubUser implements Serializable {
 	}
 
 	public String getCompany() {
-		return company;
+		return this.company;
 	}
 
 	public void setCompany(String company) {
@@ -32,7 +32,7 @@ public class GithubUser implements Serializable {
 	}
 
 	public String getBlog() {
-		return blog;
+		return this.blog;
 	}
 
 	public void setBlog(String blog) {
