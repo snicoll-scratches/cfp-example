@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.springframework.boot.actuate.metrics.CounterService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
@@ -34,11 +35,13 @@ public class GithubClient {
 		this.restTemplate = restTemplate;
 	}
 
+	@Cacheable("github.commits")
 	public List<Commit> getRecentCommits(String organization, String project) {
 		ResponseEntity<Commit[]> response = doGetRecentCommit(organization, project);
 		return Arrays.asList(response.getBody());
 	}
 
+	@Cacheable("github.polishCommit")
 	public Commit getRecentPolishCommit(String organization, String project) {
 		ResponseEntity<Commit[]> page = doGetRecentCommit(organization, project);
 		for (int i = 0; i < 4; i++) {
@@ -67,6 +70,7 @@ public class GithubClient {
 		return invoke(createRequestEntity(url), Commit[].class);
 	}
 
+	@Cacheable("github.user")
 	public GithubUser getUser(String githubId) {
 		return invoke(createRequestEntity(
 				String.format("https://api.github.com/users/%s", githubId)), GithubUser.class).getBody();
