@@ -46,6 +46,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                     </ul>
                 </li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li sec:authorize="hasRole('ROLE_ADMIN')" th:class="${navSection == 'admin' ? 'active' : ''}"><a th:href="@{/admin}">Admin</a></li>
+            </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
