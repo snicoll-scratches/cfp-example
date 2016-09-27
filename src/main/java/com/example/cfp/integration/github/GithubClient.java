@@ -1,9 +1,7 @@
 package com.example.cfp.integration.github;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,24 +11,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.metrics.CounterService;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpRequestExecution;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Base64Utils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-@Service
 public class GithubClient {
 
 	private static final Pattern LINK_PATTERN = Pattern.compile("<(.+)>; rel=\"(.+)\"");
@@ -39,11 +28,9 @@ public class GithubClient {
 
 	private final RestTemplate restTemplate;
 
-	public GithubClient(CounterService counterService, RestTemplateBuilder restTemplateBuilder,
-			@Value("${GITHUB_TOKEN:}") String token) {
+	public GithubClient(CounterService counterService, RestTemplateBuilder restTemplateBuilder) {
 		this.counterService = counterService;
-		this.restTemplate = restTemplateBuilder.additionalCustomizers(rt ->
-				rt.getInterceptors().add(new GithubAppTokenInterceptor(token))).build();
+		this.restTemplate = restTemplateBuilder.build();
 	}
 
 	public List<Commit> getRecentCommits(String organization, String project) {
@@ -118,28 +105,6 @@ public class GithubClient {
 			}
 		}
 		return result;
-	}
-
-
-	private static class GithubAppTokenInterceptor implements ClientHttpRequestInterceptor {
-
-		private final String token;
-
-		GithubAppTokenInterceptor(String token) {
-			this.token = token;
-		}
-
-		@Override
-		public ClientHttpResponse intercept(HttpRequest httpRequest, byte[] bytes,
-				ClientHttpRequestExecution clientHttpRequestExecution) throws IOException {
-			if (StringUtils.hasText(this.token)) {
-				byte[] basicAuthValue = this.token.getBytes(StandardCharsets.UTF_8);
-				httpRequest.getHeaders().set(HttpHeaders.AUTHORIZATION,
-						"Basic " + Base64Utils.encodeToString(basicAuthValue));
-			}
-			return clientHttpRequestExecution.execute(httpRequest, bytes);
-		}
-
 	}
 
 }
