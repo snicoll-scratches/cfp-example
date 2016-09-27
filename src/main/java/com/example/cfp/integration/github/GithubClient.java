@@ -40,7 +40,7 @@ public class GithubClient {
 	private final RestTemplate restTemplate;
 
 	public GithubClient(CounterService counterService, RestTemplateBuilder restTemplateBuilder,
-			@Value("${CFP_GITHUB_TOKEN:}") String token) {
+			@Value("${GITHUB_TOKEN:}") String token) {
 		this.counterService = counterService;
 		this.restTemplate = restTemplateBuilder.additionalCustomizers(rt ->
 				rt.getInterceptors().add(new GithubAppTokenInterceptor(token))).build();
