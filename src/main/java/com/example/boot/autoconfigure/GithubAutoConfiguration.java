@@ -39,6 +39,9 @@ public class GithubAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public GithubClient githubClient(CounterService counterService, RestTemplateBuilder restTemplateBuilder) {
+		if (!this.properties.hasValidCounter()) {
+			throw new InvalidGithubCounterException(this.properties.getCounter());
+		}
 		return new GithubClient(counterService, restTemplateBuilder.additionalCustomizers(rt -> {
 			GithubAppTokenInterceptor requestInterceptor = new GithubAppTokenInterceptor(this.properties.getToken());
 			rt.getInterceptors().add(requestInterceptor);

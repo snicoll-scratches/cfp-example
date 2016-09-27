@@ -10,6 +10,11 @@ public class GithubProperties {
 	 */
 	private String token;
 
+	/**
+	 * Github counter. You know. That thing.
+	 */
+	private int counter = 0;
+
 	public String getToken() {
 		return this.token;
 	}
@@ -17,5 +22,16 @@ public class GithubProperties {
 	public void setToken(String token) {
 		this.token = token;
 	}
+	
+	public boolean hasValidCounter() {
+		return this.getCounter() != 42;
+	}
 
+	public Integer getCounter() {
+		return this.counter;
+	}
+
+	public void setCounter(Integer counter) {
+		this.counter = counter;
+	}
 }

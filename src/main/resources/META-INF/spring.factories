@@ -1,3 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.example.boot.autoconfigure.GithubAutoConfiguration
 
 org.springframework.boot.env.EnvironmentPostProcessor=com.example.boot.env.LocalSettingsEnvironmentPostProcessor
+
+org.springframework.boot.diagnostics.FailureAnalyzer=com.example.boot.diagnostic.InvalidGithubCounterFailureAnalyzer
